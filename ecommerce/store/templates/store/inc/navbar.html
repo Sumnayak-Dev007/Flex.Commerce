@@ -1,0 +1,406 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Navbar with Search Bar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  {% tailwind_css %}
+  
+  <style>
+  /* smooth transitions */
+  #navbar { transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
+</style>
+</head>
+<body>
+  <header id="navbar" class="navbar fixed top-0 w-full z-50 bg-black shadow-none transition-colors duration-300">
+  <nav class="container mx-auto p-0 md:p-0 flex justify-between items-center">
+    <div class="container mx-0 px-1 pb-2 md:pb-0">
+      <div class="flex justify-between md:justify-between items-center py-4 md:pt-2">
+        <!-- Logo -->
+        <div class="text-xl font-bold">
+          <a href="#" class="hover:text-gray-400">BrandLogo</a>
+        </div>
+
+        <!-- Search Bar (Hidden on mobile, visible on larger screens) -->
+        <form method="POST" action="{% url 'searchproduct' %}" class="hidden font-semibold md:flex w-[42%] bg-transparent p-1 mt-2 md:items-center rounded-md search-bar ml-2">
+          {% csrf_token %}
+          <input type="search" placeholder="Search products..." id="searchbar" name="searchitemi" class="w-full px-4 py-2 h-full bg-transparent rounded-l-md ring-1 ring-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button type="submit" class="bg-transparent ring-1 ring-white rounded-r-md px-4 py-[0.40rem] h-full"><i class="fa fa-search"></i></button>
+        </form>
+        <div class="flex items-center ml-3 mr-4">
+          <!-- Toggle Button -->
+          <button id="theme-toggle"
+            class="relative w-12 h-6 sm:w-14 sm:h-7 bg-gray-400 dark:bg-gray-700 rounded-full flex items-center p-1 transition-colors duration-300 focus:outline-none">
+            
+            <!-- Circle that slides -->
+            <span id="theme-toggle-circle"
+              class="w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300">
+            </span>
+          </button>
+        </div>
+
+        <!-- User Icon and Hamburger Menu Button for Mobile -->
+        <div class="md:hidden flex items-center space-x-6">
+          {% if user.is_authenticated %}
+          <div class="relative flex">
+            <button class="flex text-white hover:text-gray-400 focus:outline-none group" id="mobileDropdownButton">
+               <p class="font-semibold">{{user.username}}</p><i class="fa-solid fa-user relative top-1 ml-1"></i>
+              
+            <svg class="w-4 h-4 ml-1 mt-1 transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+              
+            
+            </button>
+            <div id="mobileDropdownMenu" class="absolute right-0 top-8 bg-gray-400 hidden mt-2 px-1 py-2 w-28 border border-blue-600 rounded-lg shadow-lg z-10">
+              <ul class="text-gray-500">
+                <!-- Dropdown item: Logout -->
+                <li>
+                  <form method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+                    <button
+                    type="submit"
+                    class="btn btn-sm btn-active w-20 mb-2 border border-blue-500"
+                  >
+                    Profile
+                  </button>
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                      Logout
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'wishlist' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                      Wishlist
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'orders' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2 border border-blue-500">
+                      My Orders
+                    </button>
+                    
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <a href="{% url 'cart' %}" class="text-2xl">
+            <i class="fa fa-shopping-cart"></i>
+          </a>
+          {% else %}
+          <div class="relative flex">
+            <button class="flex text-white hover:text-gray-400 focus:outline-none group" id="mobileDropdownButton">
+              <a class="font-semibold underline" href="{% url 'login' %}">Sign in</a><i class="fa-solid fa-user relative top-1 ml-1"></i>
+            <svg class="w-4 h-4 ml-1 mt-1 transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+            </button>
+            <div id="mobileDropdownMenu" class="absolute right-0 top-8 bg-gray-400 hidden mt-2 px-1 py-2 w-28 border border-blue-600 rounded-lg shadow-lg z-10">
+              <ul class="text-gray-500">
+                <!-- Dropdown item: Logout -->
+                <li>
+                  <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                      Register
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                      Wishlist
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2 border border-blue-500">
+                      My Orders
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                      Login
+                    </button>
+                    
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <a href="{% url 'cart' %}" class="text-2xl">
+            <i class="fa fa-shopping-cart"></i>
+          </a>
+          {% endif %}
+          <button id="menuToggle" class="text-white">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
+
+        <!-- Desktop Menu Links -->
+        <div id="menu" class="hidden md:flex items-center space-x-7 md:justify-between mr-1">
+          <a href="/" class="hover:text-gray-400 {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+          <a href="{% url 'collections' %}" class="hover:text-gray-400 {% if request.resolver_match.url_name == 'collections' %}active{% endif %}">Collections</a>
+          <div class="hidden md:flex md:items-start md:justify-between space-x-5 relative  bottom-1">
+          {% if user.is_authenticated %}
+          <div class="relative flex top-1">
+            <!-- Username button (trigger) -->
+            <button class="flex text-white font-semibold h-auto justify-end items-start  hover:text-gray-400 focus:outline-none group" id="desktopDropdownButton">
+              <i class="fa-solid fa-user text-2xl mr-1"></i><p class="mt-2 mr-1">{{user.username}}</p> 
+              <!-- Chevron Icon (Rotates on hover) -->
+              <svg class="w-4 h-4 mt-[0.80rem] transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+          
+            <!-- Dropdown menu -->
+            <div id="desktopDropdownMenu" class="absolute right-4 top-7 bg-gray-400 hidden mt-2 px-1 py-2 w-36 border border-gray-200 rounded-lg shadow-lg z-10">
+              <ul class="text-gray-500">
+                <!-- Dropdown item: Logout -->
+                <li>
+                  <a href="{% url 'profile' %}" class="btn btn-sm btn-active w-20 mb-2 text-black">
+                      Profile
+                  </a>
+              </li>
+                <li>
+                  <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2">
+                      Logout
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'wishlist' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2">
+                      Wishlist
+                    </button>
+                    
+                  </form>
+                </li>
+                <li>
+                  <form method="POST" action="{% url 'orders' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2">
+                      My Orders
+                    </button>
+                    
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% else %}
+        <div class="relative flex top-1">
+  <button 
+    class="flex text-white font-semibold h-auto justify-end items-start  hover:text-gray-400 focus:outline-none group" id="desktopDropdownButton"
+    >
+    <p class="mt-1 mr-1">Account(s)</p>
+    
+      <svg id="dropdownChevron" class="w-4 h-4 relative top-2 transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+  </button>
+
+  <!-- Dropdown menu -->
+  <div id="desktopDropdownMenu"
+    class="absolute right-4 top-7 bg-gray-400 hidden mt-2 px-1 py-2 w-36 border border-gray-200 rounded-lg shadow-lg z-10">
+    <ul class="text-gray-500">
+      <li>
+        <form method="POST" action="{% url 'register' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Register</button>
+        </form>
+      </li>
+      <li>
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Login</button>
+        </form>
+      </li>
+      <li>
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Wishlist</button>
+        </form>
+      </li>
+      <li>
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-active w-35 mb-2">My Orders</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+
+          {% endif %}
+          <div class="w-1/4">
+            <a href="{% url 'cart' %}"><i class="fa fa-shopping-cart" style="font-size:34px"></i></a>
+          </div>
+        </div>
+        </div>
+
+        <!-- User Account Dropdown (Desktop) -->
+        
+      </div>
+
+      <!-- Mobile Menu Links -->
+      <div id="mobileMenu" class="hidden md:hidden flex flex-col space-y-4 ">
+  
+        <a href="/" class="hover:text-gray-400 {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+        <a href="{% url 'collections' %}" class="hover:text-gray-400 {% if request.resolver_match.url_name == 'collections' %}active{% endif %}">Collections</a>
+
+      </div>
+      
+        <form method="POST" action="{% url 'searchproduct' %}" class="md:hidden w-full flex items-center bg-transparent  rounded-md mx-1">
+          {% csrf_token %}
+          <input type="search" placeholder="Search products..." id="searchbar" name="searchitemi"
+              class="w-full px-4 py-2 text-black bg-transparent rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button type="submit" class="bg-transparent ring-1 ring-white text-white rounded-r-md px-4 py-2">
+              <i class="fa fa-search"></i>
+          </button>
+      </form>
+
+
+  </div>
+</div>
+
+    </div>
+  </nav>
+</header>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ----- DEBUG: find all navbar elements -----
+  const allNavbars = document.querySelectorAll('#navbar');
+  if (!allNavbars.length) {
+    console.error('[NAVBAR] No element with id="navbar" found. Add id="navbar" to your navbar element.');
+    return;
+  }
+  if (allNavbars.length > 1) {
+    console.warn('[NAVBAR] Multiple elements with id="navbar" found. Only the first will be used. Remove duplicates.');
+  }
+  const navbar = allNavbars[0];
+
+  // make sure it's on top
+  navbar.style.zIndex = navbar.style.zIndex || 9999;
+
+  // ----- CONFIG: change this to true if you want navbar visible (non-transparent) on initial load -----
+  const initialVisible = true; // true = visible (dark bg) immediately; false = transparent initially with dark text
+
+  // helper to set colors (uses inline styles so classes from other scripts won't override)
+  function setVisible() {
+    navbar.style.backgroundColor = 'rgba(0,0,0,0.9)';
+    navbar.style.color = 'white';
+    navbar.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+    // make links/icons inside visible (inline, to override conflicting CSS)
+    navbar.querySelectorAll('a, button, span, i, svg').forEach(el => {
+      el.style.color = 'white';
+      // for svg strokes/fills
+      if (el.tagName === 'SVG') {
+        el.style.fill = 'white';
+        el.style.stroke = 'white';
+      }
+    });
+  }
+
+  function setTransparent() {
+    navbar.style.backgroundColor = 'transparent';
+    navbar.style.boxShadow = 'none';
+    // make nav text dark when transparent so it stays visible over white page background
+    navbar.style.color = 'black';
+    navbar.querySelectorAll('a, button, span, i, svg').forEach(el => {
+      el.style.color = 'black';
+      if (el.tagName === 'SVG') {
+        el.style.fill = 'black';
+        el.style.stroke = 'black';
+      }
+    });
+  }
+
+  // apply initial state
+  if (initialVisible) setVisible(); else setTransparent();
+
+  // push content down so navbar doesn't overlap
+  function adjustContentPadding() {
+    // prefer the .flex-grow wrapper you already have
+    const content = document.querySelector('.flex-grow') || document.querySelector('main') || document.querySelector('.page-content') || document.body;
+    const h = Math.ceil(navbar.getBoundingClientRect().height || 0);
+    content.style.paddingTop = h + 'px';
+    // debug:
+    // console.log('[NAVBAR] set content padding-top to', h);
+  }
+  adjustContentPadding();
+  window.addEventListener('resize', adjustContentPadding);
+
+  // scroll handler (threshold)
+  const threshold = 50;
+  let lastState = null; // null / 'visible' / 'transparent'
+  function updateOnScroll() {
+    const scrolled = window.scrollY > threshold;
+    if (scrolled) {
+      if (lastState !== 'visible') {
+        setVisible();
+        lastState = 'visible';
+        // console.log('[NAVBAR] scrolled -> visible');
+      }
+    } else {
+      if (initialVisible) {
+        // keep visible when near top if initialVisible=true
+        if (lastState !== 'visible') {
+          setVisible();
+          lastState = 'visible';
+        }
+      } else {
+        if (lastState !== 'transparent') {
+          setTransparent();
+          lastState = 'transparent';
+        }
+      }
+    }
+  }
+
+  // run initial check (important if you reload mid-page)
+  updateOnScroll();
+  window.addEventListener('scroll', updateOnScroll, { passive: true });
+
+  // DEBUG INFO
+  console.info('[NAVBAR] initialized. initialVisible=', initialVisible, 'nav height=', navbar.getBoundingClientRect().height);
+});
+</script>
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,143 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind Slider</title>
+    <style>
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .slider {
+            display: flex;
+            animation: slide 25s infinite;
+        }
+        
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            transition: transform 1s ease-in-out;
+        }
+        .slide img {
+            transition: transform 1s ease-in-out;
+        }
+
+        .slider-container button {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* The animation for sliding */
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(-200%);
+            }
+            
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Zoom effect on a specific slide */
+        .slide.zoom img {
+            animation: zoomIn 5s ease-in-out forwards;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2); /* Zoom in */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 608px) {
+            .slider-container button {
+                top: calc(50% - 16px);
+                transform: translateY(0);
+            }
+            .slider-container {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+    {% tailwind_css %}
+</head>
+<body>
+    <div class="slider-container">
+        <div id="slider" class="slider w-[324%] md:w-[100%]">
+            <!-- <div class="slide h-full mb-0"><img src="{% static 'images/shoes.png' %}" alt="Kurta"></div> -->
+            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/cure.png' %}" alt="Jumpsuit"></div>
+            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/free.png' %}" alt="Books"></div>
+            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/cure.png' %}" alt="Jumpsuit"></div>
+        </div>
+        <!-- <button id="prev" class="hidden md:block absolute left-4 bg-gray-800 text-white rounded-full p-2 focus:outline-none md:left-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button id="next" class="hidden md:block absolute right-4 bg-gray-800 text-white rounded-full p-2 focus:outline-none md:right-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button> -->
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            const offset = -currentIndex * 100;
+            slider.style.transform = `translateX(${offset}%)`;
+            
+            // Remove zoom effect from all slides
+            slides.forEach((slide) => {
+                slide.classList.remove('zoom');
+            });
+        }
+
+        function applyZoom() {
+            // Apply zoom effect to the current slide after the slide has paused
+            slides[currentIndex].classList.add('zoom');
+        }
+
+        document.getElementById('next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlider();
+            setTimeout(applyZoom, 5000); // Apply zoom after 5 seconds
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateSlider();
+            setTimeout(applyZoom, 5000); // Apply zoom after 5 seconds
+        });
+
+        // Automatically advance the slider every 10 seconds (5s pause + 5s zoom effect)
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateSlider();
+            setTimeout(applyZoom, 5000); // Apply zoom after 5 seconds
+        }, 10000); // 10 seconds for 5-second pause + 5 seconds slide transition
+
+        // Initial update
+        updateSlider();
+    </script>
+</body>
+</html>

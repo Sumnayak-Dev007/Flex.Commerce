@@ -1,0 +1,83 @@
+{% load static tailwind_tags %}
+{% block content %}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Categories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-5">
+
+  <div class="max-w-6xl mx-auto my-6">
+    <h1 class="md:text-5xl text-3xl font-semibold text-center mt-8">Explore Our Categories</h1>
+    <p class="text-center md:text-lg my-4">Find everything from groceries to payment solutions.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Category Card -->
+      <div class="relative group">
+        <div class="overflow-hidden shadow-lg h-60 lg:h-96">
+          <img
+            src="{% static 'images/produce.webp' %}"
+            alt="Fresh Produce"
+            class="object-cover w-full md:w-full  h-full lg:h-full transform group-hover:scale-110 transition duration-500"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+            <h2 class="text-white text-xl font-semibold mb-2">Fresh Produce</h2>
+            <button class="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200">Shop Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Category Card -->
+      <div class="relative group">
+        <div class="overflow-hidden shadow-lg h-60 lg:h-96">
+          <img
+            src="{% static 'images/pulses.webp' %}"
+            alt="Clothes"
+            class="object-cover w-full md:w-full  h-full lg:h-full transform group-hover:scale-110 transition duration-500"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+            <h2 class="text-white text-xl font-semibold mb-2">Pulses</h2>
+            <button class="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200">Shop Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Category Card -->
+      <div class="relative group">
+        <div class="overflow-hidden shadow-lg h-60 lg:h-full">
+          <img
+            src="{% static 'images/fruit.webp' %}"
+            alt="Grocery"
+            class="object-cover w-full md:w-full  h-full lg:h-full transform group-hover:scale-110 transition duration-500"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+            <h2 class="text-white text-xl font-semibold mb-2">Fruits</h2>
+            <button class="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200">Shop Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Category Card -->
+      <div class="relative group">
+        <div class="overflow-hidden shadow-lg h-60 lg:h-96">
+          <img
+            src="{% static 'images/upi.webp' %}"
+            alt="Pulses"
+            class="object-cover w-full md:w-full  h-full lg:h-full transform group-hover:scale-110 transition duration-500"
+          />
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+            <h2 class="text-white text-xl font-semibold mb-2">Payment Solutions</h2>
+            <button class="bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200">Shop Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+{%  endblock %}

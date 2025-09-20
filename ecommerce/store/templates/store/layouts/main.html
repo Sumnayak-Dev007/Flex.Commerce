@@ -1,0 +1,278 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock %}
+
+    </title>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <!-- alertyfy -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    
+    <!-- static -->
+    <!-- <script src="{% static '/js/jquery-3.7.1.min.js' %}"></script> -->
+
+    
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+*{
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+*{
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: italic;-->
+  
+<style>
+  :root { --navbar-height: 64px; } /* fallback */
+  /* smooth transition so layout doesn't jump */
+  .flex-grow { transition: padding-top 180ms ease; }
+.category-image-container {
+            transition: transform 1s linear, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .category-image-container:hover {
+            transform: scale(1.05); /* Adds a scaling effect */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        /* Responsive grid layout */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two items per row */
+                gap: 1rem; /* Adjust spacing between items */
+            }
+            .category-image-container {
+                padding: 0.5rem;
+            }
+            .category-image-container img {
+                height: 10rem; /* Adjust image height for better fit */
+            }
+        }
+        @media (max-width: 640px) {
+            .category-image-container h3 {
+                font-size: 0.875rem; /* Smaller font size for mobile */
+            }
+            .category-image img {
+                height: 8rem; /* Smaller image size */
+            }
+        }
+        .whats-chat{
+          position:fixed;
+          bottom:01% !important;
+          left:01% !important;
+        }
+        a {
+            text-decoration: noe;
+        }
+
+        .relative:hover .hidden {
+            display: block;
+        }
+    
+        .product-viewtag{
+        background-color: red;
+        color: #fff;
+        font-size: 11px;
+        line-height: 1;
+        position: absolute;
+        text-align: center;
+        text-transform: uppercase;
+        top: 22px;
+        margin-left: 17.5rem;
+        padding: 7px 10px;
+        font-weight: 600;
+        min-width: 45px;
+        }
+    </style>
+    <style>
+      html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+    </style>
+
+    {% tailwind_css %}
+</head>
+<body class="flex flex-col min-h-screen bg-white dark:bg-dark-800 text-black dark:text-white bg-white dark:bg-gray-800 text-black dark:text-white">
+    {% include 'store/inc/navbar.html' %}
+    <div class="flex-grow">
+      {% block content %}
+
+      {% endblock content%}
+    </div>
+    
+    
+    <a href=" https://wa.me/+917303732645?text=I'm%20interested%20to%20chat%20" target="_blank" class="whats-chat">
+      <img src="{% static 'images/wa.jpg' %}" alt="Whatsapp" width="60px">
+    </a>
+    <script src="{% static '/js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    
+    
+   
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+  function setupDropdown(buttonId, menuId, chevronId) {
+    const btn = document.getElementById(buttonId);
+    const menu = document.getElementById(menuId);
+    const chevron = chevronId ? document.getElementById(chevronId) : null;
+
+    if (!btn || !menu) return;
+
+    function toggleMenu() {
+      menu.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-0');
+    }
+
+    function closeMenu() {
+      menu.classList.add('hidden');
+      if (chevron) chevron.classList.remove('rotate-0');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
+  }
+
+  setupDropdown('desktopDropdownButton', 'desktopDropdownMenu', 'desktopDropdownChevron');
+  setupDropdown('mobileDropdownButton', 'mobileDropdownMenu', 'mobileDropdownChevron');
+});
+
+      </script>
+
+
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script>
+  $(document).ready(function() {
+    var availableTags = [];
+
+    $.ajax({
+        method: "GET",
+        url: "/product-list/",
+        success: function(response) {
+            console.log(response);  // Check the response format here
+            availableTags = response;
+            setupAutocomplete(availableTags);  // Use a more descriptive function name
+        },
+        error: function(error) {
+            alertify.error("Error fetching product list:", error.status);
+        }
+    });
+
+    function setupAutocomplete(tags) {
+        $("#searchbar").autocomplete({
+            source: tags,
+            minLength: 2  // Wait until 2 characters are typed before suggesting
+        });
+    }
+});
+
+</script>
+<script>
+  alertify.set('notifier', 'position', 'top-right');
+  {% for message in messages %}
+      alertify.{{ message.tags|default:"message" }}('{{ message|escapejs }}');
+  {% endfor %}
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/678a3c39825083258e06cc87/1ihpvmgh4';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
+   {% block scripts %}
+   
+   {% endblock scripts %}
+   <script src="{% static 'js/checkout.js' %}"></script>
+   
+  
+  
+   {% include 'store/inc/footer.html' %}
+   <script>
+  function adjustContentForNavbar() {
+    const navbar = document.getElementById('navbar');
+    // main content wrapper used in your base.html
+    const main = document.querySelector('.flex-grow') || document.querySelector('main') || document.body;
+    if (!navbar || !main) return;
+
+    const navHeight = Math.ceil(navbar.getBoundingClientRect().height);
+    // set CSS variable (optional)
+    document.documentElement.style.setProperty('--navbar-height', navHeight + 'px');
+    // set padding on the content wrapper so content appears below fixed navbar
+    main.style.paddingTop = navHeight + 'px';
+  }
+
+  window.addEventListener('DOMContentLoaded', adjustContentForNavbar);
+  window.addEventListener('resize', adjustContentForNavbar);
+</script>
+<script>
+  const toggleBtn = document.getElementById('theme-toggle');
+  const toggleCircle = document.getElementById('theme-toggle-circle');
+
+  // Function to move the circle
+  function updateCirclePosition() {
+    if (document.documentElement.classList.contains('dark')) {
+      toggleCircle.style.transform = 'translateX(1.7rem)'; // adjust for sm screen
+    } else {
+      toggleCircle.style.transform = 'translateX(0)';
+    }
+  }
+
+  // Apply saved theme on page load
+  if (localStorage.getItem('theme') === 'dark' || 
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+  }
+  updateCirclePosition();
+
+  // Toggle event
+  toggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      updateCirclePosition();
+
+      // Save preference
+      if (document.documentElement.classList.contains('dark')) {
+          localStorage.setItem('theme', 'dark');
+      } else {
+          localStorage.setItem('theme', 'light');
+      }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Navbar with Search Bar</title>
+  <style>
+    /* Style the navbar container */
+.navbar {
+  background-color: #333;
+  padding: 1em;
+  text-align: center;
+}
+
+/* Style the unordered list */
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Style individual list items */
+.navbar li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+/* Style links */
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Style the disabled link */
+.navbar a.disabled {
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Style the search bar form */
+.navbar form {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+/* Style the search input field */
+.navbar input[type="search"] {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px;
+}
+
+/* Style the search button */
+.navbar button[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 0.5em 2em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style the search button on hover */
+.navbar button[type="submit"]:hover {
+  background-color: #444;
+}
+  </style>
+</head>
+<body>
+  <!-- Add the navbar code here -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="{% url "home" %}">Home</a></li>
+      <li><a href="{% url "collections" %}">Collections</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#" class="disabled">Disabled</a></li>
+      <li>
+        <form>
+          <input type="search" placeholder="Search...">
+          <button type="submit">Search</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+</body>
+</html>

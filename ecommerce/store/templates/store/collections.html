@@ -1,0 +1,47 @@
+{% extends 'store/layouts/main.html' %}
+{% load static tailwind_tags %}
+{% block content %}
+
+
+    
+    
+<!-- Breadcrumb -->
+<div class="py-4 text-xl bg-blue-600 dark:bg-blue-700">
+    <div class="container mx-auto">
+        <a class="text-white hover:underline" href="{% url 'home' %}">Home /</a>
+        <a class="text-white hover:underline" href="{% url 'collections' %}">Collections</a>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="container mx-auto px-4 py-10">
+    <div class="text-center">
+        <h1 class="text-3xl font-bold my-6 dark:text-white">Collections</h1>
+        <hr class="mb-8 border-gray-300 dark:border-gray-600">
+
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for item in category %}
+            <div class="category-image-container border-[0.2px] dark:border-gray-200 border-gray-400 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                <a href="{% url 'collectview' item.slug %}">
+                    <div class="p-3">
+                        <h3 class="text-left text-lg font-bold text-black dark:text-white">{{ item.name }}</h3>
+                    </div>
+                    <div>
+                        <div class="category-image">
+                            <img src="{{ item.image.url }}" alt="Category Image" class="w-full h-64 object-contain">
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="text-left text-md text-blue-500 dark:text-blue-400 underline">
+                            <a href="#">see offer</a>
+                        </h3>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

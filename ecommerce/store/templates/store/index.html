@@ -1,0 +1,49 @@
+
+{% extends 'store/layouts/main.html' %}
+{% block title %}
+BrandLogo
+{% endblock %}
+{% block content %}
+{% include "store/inc/slide.html" %}
+
+<!-- Tailored Section -->
+<div class="w-full px-4 py-4 bg-white dark:bg-gray-800 text-black dark:text-white">
+    <h1 class="md:text-5xl text-3xl font-semibold text-center my-8 dark:text-white">Tailored for Your Needs</h1>
+    <p class="md:text-lg text-center mt-8 mb-2 dark:text-gray-300">
+        Explore the customizable options available with BrandLogo. Our platform allows businesses to tailor their online store to meet specific needs, ensuring a seamless shopping experience for their customers. With integrated payment gateways, robust security features, and advanced analytics, you can optimize your store for success.
+    </p>
+    <div class="text-center mb-5">
+        <i class="fa-solid fa-gear relative top-4 left-2 text-2xl dark:text-white"></i>
+        <i class="fa-solid fa-gears text-xl dark:text-white"></i>
+    </div>
+</div>
+
+<!-- Category Grid Section -->
+<div class="bg-white dark:bg-gray-800 py-10 flex-grow min-h-[calc(100vh-16rem)] py-6">
+    <div class="text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
+            {% for item in category %}
+            <div class="category-image-container bg-white border-[0.2px] dark:border-gray-200 border-gray-400 dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden">
+                <a href="{% url 'collectview' item.slug %}">
+                    <div class="p-3">
+                        <h3 class="text-left text-lg font-bold text-black dark:text-white">{{ item.name }}</h3>
+                    </div>
+                    <div>
+                        <div class="category-image">
+                            <img src="{{ item.image.url }}" alt="Category Image" class="w-full h-64 object-contain">
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="text-left text-md text-blue-500 dark:text-blue-400 underline">
+                            <a href="#">see offer</a>
+                        </h3>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,223 @@
+{% extends 'store/layouts/main.html' %}
+{% load static tailwind_tags %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .category-image-container {
+            transition: transform 0s linear, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .category-image-container:hover {
+            transform: translateZ(50rem); /* Moves the image towards the user */
+            box-shadow: 0 20px 20px rgba(0, 0, 0, 0.274);
+            cursor: pointer;
+        }
+        @media (max-width: 400px) {
+            /* Mobile styles */
+            .product-container {
+                display: block;
+            }
+
+            .product-name {
+                font-size: 1.5rem; /* Smaller font size for mobile */
+                margin-bottom: 10px;
+            }
+
+            .product-image {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .product-details {
+                margin-top: 15px;
+                text-align: left;
+            }
+
+            .add-to-cart, .add-to-wishlist {
+                margin: auto;
+                width: 100%;
+                text-align: center;
+            }
+
+            .add-to-cart-btn {
+                margin-bottom: 10px;
+            }
+
+            /* For mobile, ensure elements are stacked properly */
+            .product-tag,
+            .product-trending {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            .product-price {
+                font-size: 1rem;
+            }
+
+            .qty_input {
+                width: 40px;
+            }
+
+            .message {
+                top: 500px;
+                left: 500px;
+            }
+        }
+    </style>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-200">
+<div class="py-4 bg-blue-500 text-xl">
+    <div class="container mx-auto px-4">
+        <a href="{% url 'home' %}" class="text-white hover:underline">Home /</a>
+        <a href="{% url 'collections' %}" class="text-white hover:underline">Collections /</a>
+        <a href="{% url 'collectview' product.category.slug %}" class="text-white hover:underline">
+            {{ product.category.name }}
+        </a>
+        <a href="{% url 'productview' product.category.slug product.slug %}" class="text-white hover:underline">
+            {{ product.name }}
+        </a>
+    </div>
+</div>
+
+<div class="container mx-0 mt-2 px-4 product-container">
+    <div class="w-full mt-1">
+        <h1 class="text-3xl font-bold product-name">{{ product.name }}</h1>
+        <hr class="my-1 border-gray-300">
+        
+        <div class="py-5 bg-white rounded-sm border-1 border-gray-400 outline-none p-2">
+            <div class="container mx-auto">
+                <div class="flex flex-nowrap flex-col lg:flex-row">
+                    <div class="w-full lg:w-1/3">
+                        <div class="flex flex-col">
+                            {% if product.tag %}
+                            <div class="product-tag"><label class="text-center mb-1 text-lg w-14 px-2 py-2 font-semibold bg-red-500 text-white">{{ product.tag }}</label></div>
+                            {% endif %}
+                            <img src="{{ product.product_image.url }}" class="w-full h-auto product-image" alt="image">
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-2/3 pl-4 product-details">
+                        {% if product.trending %}
+                        <label class="rounded-none relative float-right text-2xl font-semibold bg-red-500 text-white px-2 py-1 product-trending">Trending</label>
+                        {% endif %}
+                        <h2 class="text-4xl font-bold">{{ product.name }}
+                            <hr class="border-t border-slate-400 mt-5">
+                        </h2>
+                        <div class="flex items-center">
+                            <label class="text-gray-500 mr-3">Original Price: <s>Rs {{ product.original_price | stringformat:'d' }}</s></label>
+                            <label class="font-bold text-xl">Selling Price: Rs {{ product.selling_price | stringformat:'d' }}</label>
+                        </div>
+                        <p class="mt-3 text-gray-600">{{ product.small_description }}</p>
+                        <hr class="border-t border-slate-400">
+                        <div class="my-2">
+                          {% if product.quantity > 0 %}
+                        <label class="bg-green-500 text-white px-2 py-1 rounded-md">In stock</label>
+                        {% else %}
+                        <label class="bg-red-500 text-white px-2 py-1 rounded-md">Out of stock</label>
+                        {% endif %}
+                        </div>
+                        
+    
+                        <div class="mt-2 flex flex-wrap prod_data">
+                            <div class="w-full md:w-1/4">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ product.id }}" class="prod_id">
+                                <div id="message" class="w-auto mb-1"></div>
+                                <label for="Quantity" class="block text-xl font-semibold">Quantity</label>
+                                {% if product.quantity %}
+                                <div class="flex items-center space-x-2 mb-3 w-[8rem] mx-auto product_val">
+                                    <button class="bg-gray-200 text-2xl text-gray-600 w-8 h-8 rounded-none decrement_btn">-</button>
+                                    <input type="text" name="quantity" class="w-12 text-center border border-gray-300 rounded-md qty_input" value="1">
+                                    <button class="bg-gray-200 text-2xl text-gray-600 w-8 h-8 rounded-none increment_btn">+</button>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="w-full md:w-3/4 flex flex-wrap items-center justify-center addto md:relative md:top-28 md:right-24 mt-2">
+                                {% if product.quantity > 0 %}
+                                <button type="button" class="btn w-full btn-info text-xl bg-blue-500 text-white add-to-cart-btn addToCartBtn">Add to Cart <i class="fa fa-shopping-cart ml-2"></i></button>
+                                {% endif %}
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ product.id }}" class="prodid">
+                            <button type="button" class="btn w-full btn-success text-xl text-white add-to-wishlist mt-2  addToWishlist">Add to Wishlist <i class="fa fa-heart ml-2"></i></button>
+
+                            </div>
+                            <!-- Add to Wishlist button below Add to Cart on mobile -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 border-gray-300">
+            <div class="container mx-auto px-5">
+                <h2 class="text-2xl my-2 font-semibold">Description</h2>
+                {{ product.descriptions }}
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full my-5">
+        <img src="{% static 'images/foot-top.png' %}" alt="">
+    </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let availableQuantity = {{ product.quantity }};  // Use Django context for available quantity
+    let quantityDisplay = document.querySelector('.qty_input');  // Input element
+    let incrementButton = document.querySelector('.increment_btn');  // Increment button
+    let decrementButton = document.querySelector('.decrement_btn');  // Decrement button
+
+    // Create a message element
+    let messageElement = document.getElementById('message');
+    messageElement.className = 'text-red-600 text-sm mt-1';
+    messageElement.style.display = 'none';  // Hide by default
+
+    function updateQuantity(newQuantity) {
+        quantityDisplay.value = newQuantity;  // Update input value
+    }
+
+    incrementButton.addEventListener('click', () => {
+        let currentQuantity = parseInt(quantityDisplay.value);  // Get input value
+        if (currentQuantity < availableQuantity) {
+            currentQuantity++;
+            updateQuantity(currentQuantity);
+            messageElement.style.display = 'none';  // Hide message if within limit
+        }
+        if (currentQuantity >= availableQuantity) {
+            incrementButton.disabled = true;
+            messageElement.textContent = `Only ${availableQuantity} item(s) are available.`;  // Show message
+            messageElement.style.display = 'block';
+            messageElement.style.backgroundColor = 'grey';
+            messageElement.style.color = 'white';
+            messageElement.style.width = 'fit-content';  // Adjust to content
+            messageElement.style.padding = '5px 10px';  // Add padding for a neat look
+            messageElement.style.borderRadius = '5px';  // Rounded corners
+            messageElement.style.fontSize = '18px';  // Smaller font size
+            messageElement.style.fontWeight= '600';  // Smaller font size
+            messageElement.style.boxShadow = '0px 2px 4px rgba(0, 0, 0, 0.1)';  // Subtle shadow
+            messageElement.style.whiteSpace = 'nowrap';  // Prevent line breaks
+            messageElement.style.zIndex = '10';  //
+            messageElement.style.border = '1px solid black';  //
+        }
+    });
+
+    decrementButton.addEventListener('click', () => {
+        let currentQuantity = parseInt(quantityDisplay.value);  // Get input value
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            updateQuantity(currentQuantity);
+            incrementButton.disabled = false;  // Enable increment button
+            messageElement.style.display = 'block';  // Hide message
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+{% endblock %}

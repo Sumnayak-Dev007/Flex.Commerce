@@ -1,0 +1,66 @@
+{% extends 'store/layouts/main.html' %}
+{% load static tailwind_tags %}
+{% block title %}
+Your Wishlist
+{% endblock %}
+{% block content %}
+
+<div class="bg-gray-200">
+    <!-- Add margin or padding for navbar space -->
+    <div class="pt-[6rem] lg:pt-[7rem]"> 
+        <!-- Black Top Bar (if needed) -->
+        <div class="bg-black w-full h-[18%]"></div>
+
+        <!-- Breadcrumb Section -->
+        <div class="py-4 bg-blue-500 text-xl mt-1">
+            <div class="container mx-auto px-4">
+                <a href="{% url 'home' %}" class="text-white hover:underline">Home /</a>
+                <a href="{% url 'wishlist' %}" class="text-white hover:underline">Wishlist</a>
+            </div>
+        </div>
+
+        <!-- Wishlist Section -->
+        <div class="max-w-7xl mx-auto py-12 px-4 lg:px-8">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Your Wishlist</h2>
+
+                    {% if wishlist %}
+                        {% for item in wishlist %}
+                        <div class="product_data flex flex-col lg:flex-row items-center lg:justify-between space-y-4 lg:space-y-0 py-4 px-3 border border-gray-400 bg-white rounded-lg shadow-sm">
+                            <!-- Product Image -->
+                            <div class="w-full lg:w-1/4 flex justify-center">
+                                <img class="w-full max-w-[10rem] object-cover" src="{{item.product.product_image.url}}" alt="Product image">
+                            </div>
+
+                            <!-- Product Info -->
+                            <div class="w-full lg:w-1/3 text-center lg:text-left">
+                                <p class="text-lg font-medium text-gray-900">{{item.product.name}}</p>
+                                <p class="text-gray-500 text-md">{{item.product.small_description}}</p>
+                            </div>
+
+                            <!-- Price & Buttons -->
+                            <div class="w-full lg:w-1/4 flex flex-col space-y-2 items-center lg:items-end">
+                                <p class="text-lg font-medium text-gray-900">Rs. {{item.product.selling_price | stringformat:'d'}}</p>
+                                <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600"> 
+                                    <i class="fa fa-eye"></i> View
+                                </a>
+                                <button class="del-wish btn btn-error btn-sm md:relative md:right-4 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none">
+                                    <i class="fa fa-trash mr-2"></i> 
+                                </button>
+                            </div>
+                            <input type="hidden" value="{{ item.product.id }}" class="prod_id">
+                            {% csrf_token %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <h4 class="flex items-center bg-white h-16 justify-center text-xl rounded-md shadow">
+                            Your Wishlist is Empty
+                        </h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

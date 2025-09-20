@@ -1,0 +1,230 @@
+{% extends 'store/layouts/main.html' %}
+{% load static tailwind_tags %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta required name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-200">
+    <div class="py-4 bg-blue-500 text-xl">
+        <div class="container mx-auto px-4">
+            <a href="{% url 'home' %}" class="text-white hover:underline">Home /</a>
+            <a href="{% url 'checkout' %}" class="text-white hover:underline">Checkout</a>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <form action="{% url 'placeorder' %}" method="POST">
+            {% csrf_token %}
+        <div class="flex flex-wrap">
+          <div class="w-screen md:w-6/12 mx-2 md:mx-4">
+            <div class="bg-white shadow-lg rounded-lg mx-1">
+              <div class="p-6">
+                <h6 class="text-lg font-semibold">Basic Details</h6>
+                <hr class="my-4">
+                <div class="flex flex-wrap">
+                  <div class="w-full md:w-1/2 px-2 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" value="{{request.user.first_name}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="fname" placeholder="Enter first required name">
+                  </div>
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" value="{{request.user.last_name}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="lname" placeholder="Enter last required name">
+                  </div>
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" value="{{request.user.email}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="email" placeholder="Enter Email">
+                  </div>
+                
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input type="text" value="{{profile.phone}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="phone" placeholder="Enter Phone">
+                  </div>
+                
+                  <div class="w-full px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Address</label>
+                    <textarea class="form-textarea mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="address" placeholder="Enter Address">{{profile.address}}</textarea>
+                  </div>
+                
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" value="{{profile.city}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="city" placeholder="Enter City">
+                  </div>
+                
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">State</label>
+                    <input type="text" value="{{profile.state}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="state" placeholder="Enter State">
+                  </div>
+                
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Country</label>
+                    <input type="text" value="{{profile.country}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="country" placeholder="Enter Country">
+                  </div>
+
+                  <div class="w-full md:w-1/2 px-3 mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Enter Pin Code</label>
+                    <input type="text" value="{{profile.pincode}}" class="form-input mt-1 block w-full border-gray-300 rounded-md shadow-sm" required name="pincode" placeholder="Enter Pin Code">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-screen md:w-5/12 m-2">
+            <div class="bg-white shadow-lg rounded-lg">
+              <div class="p-2">
+                <h6 class="text-lg font-semibold">Order Summary</h6>
+                <hr class="my-4">
+                {% if cart %}
+                <table class="min-w-full table-auto">
+                    <thead>
+                      <tr class="border-b">
+                        <th class="px-4 py-2 text-left">Product</th>
+                        <th class="px-4 py-2 text-left">Qty</th>
+                        <th class="px-4 py-2 text-left">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in cart %}
+                        <tr class="border-b">
+                          <td class="px-4 py-2 flex items-center">
+                            <img src="{{ item.Product.product_image.url }}" class="h-12 w-12 object-cover mr-5" alt="Product Image">
+                            {{ item.Product.name }}
+                          </td>
+                          <td class="px-4 py-2">{{ item.product_qty }}</td>
+                          <td class="px-4 py-2">{{ item.Product.selling_price | stringformat:'d' }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <h6 class="font-bold text-lg">
+                    Grand Total
+                    <span class="relative left-[18rem] text-black">Rs {{ total | stringformat:'d' }}</span>
+                  </h6>
+                  <input type="hidden" required name="payment_mode" value="COD">
+                  <div class="mt-3">
+                   <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-center block font-semibold">Cash On Delivery</button>
+                   <button type="button" class="paywithRzr w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-center block mt-2 font-semibold">UPI / Wallet</button>
+                   <div id="paypal-button-container" onclick="return false;"  class="mt-2"></div>
+                  </div>
+                  
+                    
+                {% else %}
+                  <h4 class="text-xl font-medium text-gray-700">Your cart is empty</h4>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+        </form>
+       
+
+      </div>
+      
+      {% block scripts %}
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script src="https://www.paypal.com/sdk/js?client-id=AVXsToEdXgfXTyK7k4Kyho2H8oFGd28fy6wALJE5u0pmj6_INzlnyoiV8pmmGKOsMg3qBXmfbzla427A&currency=USD"></script>
+  
+
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+      <script>
+         paypal.Buttons({
+          style: {
+        height: 40  // Adjust the height (default is 25)
+             },
+             onClick:function(data,actions){
+              var fname = $("[name='fname']").val();
+              var lname = $("[name='lname']").val();
+              var email = $("[name='email']").val();
+              var phone = $("[name='phone']").val();
+              var address = $("[name='address']").val();
+              var city = $("[name='city']").val();
+              var state = $("[name='state']").val();
+              var country = $("[name='country']").val();
+              var pincode = $("[name='pincode']").val();
+              var token = $("[name='csrfmiddlewaretoken']").val();
+
+              if (fname == "" || lname == "" || email == "" || phone == "" || address == "" || city == "" || state == "" || country == "" || pincode == "")
+              {
+                  
+                  swal("Alert!", "All Fields Are Mandatory!", "error");
+                  return false;
+              }
+             },
+             createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value:({{ total | stringformat:'d' }}/ 80).toFixed(2) // Set the payment amount
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                  console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                  alert(orderData.id)
+                            
+                              var fname = $("[name='fname']").val();
+                              var lname = $("[name='lname']").val();
+                              var email = $("[name='email']").val();
+                              var phone = $("[name='phone']").val();
+                              var address = $("[name='address']").val();
+                              var city = $("[name='city']").val();
+                              var state = $("[name='state']").val();
+                              var country = $("[name='country']").val();
+                              var pincode = $("[name='pincode']").val();
+                              var token = $("[name='csrfmiddlewaretoken']").val();
+                                  data = {
+                                      "fname":fname, 
+                                      "lname":lname,
+                                      "email":email,
+                                      "phone":phone, 
+                                      "address":address, 
+                                      "city":city,
+                                      "state":state, 
+                                      "country":country, 
+                                      "pincode":pincode,
+                                      "payment_mode":"Paid by Paypal",
+                                      "payment_id":orderData.id,
+                                      csrfmiddlewaretoken:token,
+                                  }
+                                  $.ajax({
+                                      method: "POST",
+                                      url: "/placeorder/",
+                                      data: data,
+                                      success: function (responsec) {
+                                          swal("Congratulations!", responsec.status, "success",{
+                                              button: "OK",
+                                          })
+                                          .then(() => {
+                                              window.location.href = '/my-orders/'
+                                            });
+                                          
+                                      }
+                                  });
+                      
+                  
+                  var transaction = orderData.purchase_units[0].payments.captures[0];
+                  alert('Transactidn '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                });
+            }
+        }).render('#paypal-button-container'); // Renders PayPal buttons on your webpage
+    </script>
+    <script>
+      document.getElementById('paypal-button-container').addEventListener('click', function(event) {
+    event.stopPropagation(); // Prevents bubbling if necessary
+});
+
+    </script>
+      {% endblock scripts %}
+
+</body>
+</html>
+{% endblock %}

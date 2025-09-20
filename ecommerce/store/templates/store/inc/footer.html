@@ -1,0 +1,79 @@
+{% load static tailwind_tags %}
+
+<div class="flex flex-col bg-white dark:bg-gray-800 text-black dark:text-white">
+  <!-- Page content -->
+  
+  <!-- Footer -->
+  <footer class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white pt-16 pb-10"> <!-- Top padding increased -->
+    <div class="container mx-auto px-6 lg:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
+        <!-- Explore Section -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Explore</h3>
+          <ul>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Bestsellers</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Grocery Products</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Payment Solutions</a></li>
+          </ul>
+        </div>
+
+        <!-- Account Section -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Account</h3>
+          <ul>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Custom Solutions</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Scalable Options</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Section -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Company</h3>
+          <ul>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Terms and Conditions</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Privacy Policy</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Shipping Policy</a></li>
+            <li><a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Refund and Return Policy</a></li>
+          </ul>
+        </div>
+
+        <!-- Stay Updated Section -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Stay Updated</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Subscribe to our newsletter for the latest updates and offers.</p>
+          <div class="flex items-center">
+            <input id="emailInput" type="email" required placeholder="Enter your email"
+                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none text-black dark:text-white bg-white dark:bg-gray-800">
+            <button id="subscribeButton" class="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-700">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Section -->
+      <div class="mt-8 border-t border-gray-300 dark:border-gray-700 pt-6 flex flex-col items-center space-y-4">
+        
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-xl"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-xl"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-xl"><i class="fab fa-x-twitter"></i></a> <!-- X icon -->
+                <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-2xl">
+          <i class="fab fa-youtube"></i>
+        </a>
+  
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-400">&copy; 2025  Mart. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('subscribeButton').addEventListener('click', function() {
+        const button = document.getElementById('subscribeButton');
+        button.innerText = 'Subscribed!';
+        button.disabled = true;
+        button.classList.remove('hover:bg-gray-700');
+      });
+    </script>
+  </footer>
+</div>
+
