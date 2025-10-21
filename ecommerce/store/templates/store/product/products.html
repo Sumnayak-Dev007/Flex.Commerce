@@ -1,87 +1,62 @@
 {% extends 'store/layouts/main.html' %}
 {% load static tailwind_tags %}
 
+{% block title %}{{ category.name }}{% endblock %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collections</title>
-    <style>
-        .category-image-container {
-            transition: transform 0s linear, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        .category-image-container:hover {
-            transform: scale(1.05); /* Adds a scaling effect */
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-        }
-        /* Responsive grid layout */
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two items per row */
-                gap: 1rem; /* Adjust spacing between items */
-            }
-            .category-image-container {
-                padding: 0.5rem;
-            }
-            .category-image-container img {
-                height: 10rem; /* Adjust image height for better fit */
-            }
-        }
-        @media (max-width: 640px) {
-            .category-image-container h3 {
-                font-size: 0.875rem; /* Smaller font size for mobile */
-            }
-            .category-image img {
-                height: 8rem; /* Smaller image size */
-            }
-        }
-    </style>
-    {% tailwind_css %}
-</head>
-<body class="bg-gray-200">
-    <div class="py-4 text-xl bg-blue-600">
-        <div class="container mx-auto">
-            <a class="text-white hover:underline" href="{% url 'home' %}">Home /</a>
-            <a class="text-white hover:underline" href="{% url 'collections' %}">Collections /</a>
-            <a class="text-white hover:underline" href="{% url 'collectview' category.slug %}">{{category.name}}</a>
-        </div>
-    </div>
-    <div class="container mx-auto px-4">
-        <div class="text-center">
-            <h1 class="text-3xl font-bold my-6 text-left">{{category.name}}</h1>
-            <hr class="border-t border-slate-400"><br>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {% if products %}
-                {% for item in products %}
-                <div class="category-image-container  bg-white shadow-lg rounded-lg overflow-hidden">
-                   <a href="{% url 'productview' item.category.slug item.slug %}">
-                    <div class="p-4">
-                        <h3 class="text-left text-xl sm:text-2xl font-bold">{{ item.name }}</h3>
-                    </div>
-                    <div>
-                        <div class="category-image">
-                            <img src="{{ item.product_image.url }}" alt="Category Image" class="w-full h-60 sm:h-72 object-contain">
-                        </div>
-                    </div>
-                    <div class="p-4 text-left font-semibold text-lg sm:text-xl">
-                        <span>Rs. {{item.original_price | stringformat:'d'}}</span>
-                    </div>
-                </a>
-                </div>
-                {% endfor %}
+
+<!-- Breadcrumb -->
+<div class="py-4 text-xl bg-blue-600 dark:bg-blue-900">
+  <div class="container mx-auto">
+    <a class="text-white hover:underline" href="{% url 'home' %}">Home /</a>
+    <a class="text-white hover:underline" href="{% url 'collections' %}">Collections /</a>
+    <a class="text-white hover:underline" href="{% url 'collectview' category.slug %}">{{ category.name }}</a>
+  </div>
+</div>
+
+<!-- Category Section -->
+<div class="container mx-auto px-4 py-10 ">
+  <h1 class="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">{{ category.name }}</h1>
+  <hr class="border-t border-slate-400 dark:border-slate-600 mb-8">
+
+  <div class="grid grid-cols-1  mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% if products %}
+      {% for item in products %}
+        <!-- Product Card -->
+        <div class="bg-white category-image-container dark:bg-gray-800 rounded-xl shadow-lg p-4 text-center group transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
+          <a href="{% url 'productview' item.category.slug item.slug %}">
+            
+            <!-- Image -->
+            <div class="overflow-hidden rounded-lg aspect-[4/3]">
+              <img src="{{ item.product_image.url }}" 
+                   alt="{{ item.name }}" 
+                   class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110">
             </div>
-            {% else %}
-                <div class="p-4 mb-4 text-left text-sm w-screen text-blue-800 rounded-lg bg-white dark:bg-gray-800 dark:text-blue-400" role="alert">
-                    <p class="font-medium inline-block">Info Alert! </p> No Product Found For This Category.
-                </div>
-            {% endif %}
+
+            <!-- Title -->
+            <h3 class="mt-4 font-semibold text-lg text-gray-900 dark:text-white">
+              {{ item.name }}
+            </h3>
+
+            <!-- Price -->
+            <p class="text-gray-600 dark:text-gray-400 font-semibold text-base mt-1">
+              ₹{{ item.original_price|stringformat:'d' }}
+            </p>
+          </a>
         </div>
-    </div>
-</body>
-</html>
+      {% endfor %}
+    {% else %}
+      <div class="p-4 mb-4 text-left text-sm w-full text-blue-800 rounded-lg bg-white dark:bg-gray-800 dark:text-blue-400" role="alert">
+        <p class="font-medium inline-block">Info Alert!</p> No Product Found For This Category.
+      </div>
+    {% endif %}
+  </div>
+</div>
+<style>
+  .category-image-container {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+</style>
 {% endblock %}
