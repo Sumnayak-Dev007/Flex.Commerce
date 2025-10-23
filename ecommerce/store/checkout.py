@@ -104,7 +104,7 @@ def placeorder(request):
         messages.success(request,"Your Order has been Placed Successfully")
 
         payMode = request.POST.get('payment_mode')
-        if (payMode == "Paid by Razorpay" or payMode == "Paid by Paypal"):
+        if (payMode == "Paid by Razorpay" or payMode == "Paid by Paypal" or payMode == "COD"):
             return JsonResponse({'status':"Your order has been placed successfully"})
     return redirect('/')
 

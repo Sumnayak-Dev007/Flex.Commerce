@@ -5,7 +5,7 @@
 
 <div class="flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-900">
   <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-gray-100">
+    <h2 class="text-2xl dark:text-white font-bold text-center mb-6 text-gray-800 dark:text-gray-100">
       Registration Form
     </h2>
     <form action="{% url 'register' %}" method="POST" class="space-y-4">
@@ -17,7 +17,7 @@
           Username:
         </label>
         <input type="text" id="{{form.username.id_for_label}}" name="{{form.username.name}}" placeholder="Enter Username" required
-          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+          class="w-full dark:text-white px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
         {% if form.errors.username %}
         <label class="text-red-500">{{form.errors.username}}</label>
         {% endif %}
@@ -29,7 +29,7 @@
           Email:
         </label>
         <input type="email" id="{{form.email.id_for_label}}" name="{{form.email.name}}" placeholder="Enter email" required
-          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+          class="w-full dark:text-white px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
         {% if form.errors.email %}
         <label class="text-red-500">{{form.errors.email}}</label>
         {% endif %}
@@ -41,7 +41,7 @@
           Password:
         </label>
         <input type="password" id="{{form.password1.id_for_label}}" name="{{form.password1.name}}" placeholder="Enter password" required
-          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+          class="w-full dark:text-white px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
         {% if form.errors.password1 %}
         <label class="text-red-500">{{form.errors.password1}}</label>
         {% endif %}
@@ -53,7 +53,7 @@
           Confirm Password:
         </label>
         <input type="password" id="{{form.password2.id_for_label}}" name="{{form.password2.name}}" placeholder="Confirm password" required
-          class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+          class="w-full dark:text-white px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
         {% if form.errors.password2 %}
         <label class="text-red-500">{{form.errors.password2}}</label>
         {% endif %}

@@ -53,7 +53,7 @@
               
             
             </button>
-            <div id="mobileDropdownMenu" class="absolute right-0 top-8 bg-gray-400 hidden mt-2 px-1 py-2 w-28 border border-blue-600 rounded-lg shadow-lg z-10">
+            <div id="mobileDropdownMenu" class="absolute dark:text-white dark:bg-gray-900 right-0 top-8 bg-gray-400 hidden mt-2 px-1 py-2 w-28 border border-blue-600 rounded-lg shadow-lg z-10">
               <ul class="text-gray-500">
                 <!-- Dropdown item: Logout -->
                 <li>
@@ -61,7 +61,7 @@
                     {% csrf_token %}
                     <button
                     type="submit"
-                    class="btn btn-sm btn-active w-20 mb-2 border border-blue-500"
+                    class="btn btn-sm  w-20 mb-2 border text-white bg-gray-900 border-blue-500"
                   >
                     Profile
                   </button>
@@ -70,7 +70,7 @@
                 <li>
                   <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                    <button type="submit" class="btn bg-gray-900 btn-sm  w-20 mb-2 border border-blue-500">
                       Logout
                     </button>
                     
@@ -79,7 +79,7 @@
                 <li>
                   <form method="POST" action="{% url 'wishlist' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  w-20 mb-2 bg-gray-900 border border-blue-500">
                       Wishlist
                     </button>
                     
@@ -88,7 +88,7 @@
                 <li>
                   <form method="POST" action="{% url 'orders' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  w-35 mb-2 bg-gray-900 border border-blue-500">
                       My Orders
                     </button>
                     
@@ -114,7 +114,7 @@
                 <li>
                   <form method="POST" action="{% url 'register' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  w-20 mb-2 bg-gray-900 border border-blue-500">
                       Register
                     </button>
                     
@@ -123,7 +123,7 @@
                 <li>
                   <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  bg-gray-900 w-20 mb-2 border border-blue-500">
                       Wishlist
                     </button>
                     
@@ -132,7 +132,7 @@
                 <li>
                   <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  w-35 mb-2 bg-gray-900 border border-blue-500">
                       My Orders
                     </button>
                     
@@ -141,7 +141,7 @@
                 <li>
                   <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2 border border-blue-500">
+                    <button type="submit" class="btn btn-sm  w-20 mb-2 bg-gray-900 border border-blue-500">
                       Login
                     </button>
                     
@@ -180,14 +180,14 @@
               <ul class="text-gray-500">
                 <!-- Dropdown item: Logout -->
                 <li>
-                  <a href="{% url 'profile' %}" class="btn btn-sm btn-active w-20 mb-2 text-black">
+                  <a href="{% url 'profile' %}" class="hover:bg-gray-800 btn bg-gray-900 btn-sm  w-20 mb-2 text-black">
                       Profile
                   </a>
               </li>
                 <li>
                   <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2">
+                    <button type="submit" class="hover:bg-gray-800 btn bg-gray-900 btn-sm  w-20 mb-2">
                       Logout
                     </button>
                     
@@ -196,7 +196,7 @@
                 <li>
                   <form method="POST" action="{% url 'wishlist' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-20 mb-2">
+                    <button type="submit" class="hover:bg-gray-800 btn bg-gray-900 btn-sm  w-20 mb-2">
                       Wishlist
                     </button>
                     
@@ -205,7 +205,7 @@
                 <li>
                   <form method="POST" action="{% url 'orders' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-active w-35 mb-2">
+                    <button type="submit" class="hover:bg-gray-800 btn bg-gray-900 btn-sm  w-35 mb-2">
                       My Orders
                     </button>
                     
@@ -233,25 +233,25 @@
       <li>
         <form method="POST" action="{% url 'register' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Register</button>
+          <button type="submit" class="hover:bg-gray-800 btn btn-sm  bg-gray-900 w-20 mb-2">Register</button>
         </form>
       </li>
       <li>
         <form method="POST" action="{% url 'login' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Login</button>
+          <button type="submit" class="hover:bg-gray-800 btn btn-sm  w-20 bg-gray-900 mb-2">Login</button>
         </form>
       </li>
       <li>
         <form method="POST" action="{% url 'login' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-active w-20 mb-2">Wishlist</button>
+          <button type="submit" class="hover:bg-gray-800 btn btn-sm  bg-gray-900 w-20 mb-2">Wishlist</button>
         </form>
       </li>
       <li>
         <form method="POST" action="{% url 'login' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-active w-35 mb-2">My Orders</button>
+          <button type="submit" class="hover:bg-gray-800 btn btn-sm  bg-gray-900 w-35 mb-2">My Orders</button>
         </form>
       </li>
     </ul>

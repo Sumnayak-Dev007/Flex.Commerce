@@ -5,152 +5,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    {% tailwind_css %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  {% tailwind_css %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="bg-gray-200">
-    
-<div class="py-4 bg-blue-500 text-xl">
+<body class="bg-gray-200 dark:bg-gray-900 transition-colors duration-300">
+
+  <!-- Breadcrumb -->
+  <div class="py-4 bg-blue-500 dark:bg-blue-900 text-xl">
     <div class="container mx-auto px-4">
-        <a href="{% url 'home' %}" class="text-white hover:underline">Home /</a>
-        <a href="{% url 'cart' %}" class="text-white hover:underline">Cart </a>
+      <a href="{% url 'home' %}" class="text-white hover:underline">Home /</a>
+      <a href="{% url 'cart' %}" class="text-white hover:underline">Cart</a>
     </div>
-</div>
-        
-        <h2 class="bg-white p-4 text-2xl font-semibold text-gray-900 text-center mt-1">Your Cart</h2>
-        {% if cart %}
-        <div><a href="{% url 'checkout' %}" class="bg-orange-400 text-white text-center my-2 text-xl font-semibold py-2 px-4 md:ml-10 rounded hover:opacity-80 w-72 flex mx-2 justify-center items-center">Checkout</a></div>
-        {% else %}
-        <div><a href="{% url 'home' %}" class="bg-orange-400 text-white text-center my-2 text-xl font-semibold py-2 px-4 md:ml-10 rounded hover:opacity-80 w-72 flex mx-2 justify-center items-center">Shop Now</a></div>
-        {% endif %}
-        <!-- Cart Item 1 -->
-         {% if cart %}
-         {% for item in cart %}
-        <div class="product_val flex flex-col md:flex-row md:justify-between w-[98vw] md:w-[95%] shadow-sm shadow-gray-400 h-auto md:h-[20vw] md:pl-6 space-y-4 mx-auto my-2 rounded-md py-4 px-1 border border-gray-400 bg-white">
-            <div class="w-auto h-auto flex justify-start items-center space-x-2 md:space-x-4">
-                <img class="w-[40%] h-auto md:w-[10em] md:h-auto md:object-contain object-cover" src="{{item.Product.product_image.url}}" alt="Product image">
-                <div class="w-3/4">
-                    <p class="text-lg font-medium text-gray-900">{{item.Product.name}}</p>
-                    <p class="text-gray-500 text-md">{{item.Product.small_description}}</p>
-                    <p class="w-1/2 text-lg font-medium my-8 text-gray-900">Rs. {{item.Product.selling_price | stringformat:'d'}} </p>
-                </div>
-            </div>
-            
-            
-          <div class="w-auto md:w-auto flex md:flex-col md:justify-between md:items-center  md:mr-10 md:h-16 ml-3 space-x-4 product_data del_prod"> 
-            
-          <input type="hidden" value="{{ item.Product.id }}" class="prod_id">
-          {% csrf_token %}
-          <!-- {% if item.Product.quantity >= item.product_qty %} -->
-          
-          <div class="flex px-1 flex-col items-center mb-3 mx-auto">
-            
-            <label for="Quantity" class="block text-xl font-semibold">Quantity</label>
-            <div class="border border-gray-400 flex">
-            <button class="bg-white text-2xl text-gray-600 w-8 h-full rounded-none changeQty decrement_btn">-</button>
-            <input type="text" name="quantity" id="cart-item-{{ item.Product.id }}" class="w-12 text-center bg-gray-200 border border-gray-300 rounded-md qty_input" data-available-quantity="{{ item.Product.quantity }}" value="{{ item.product_qty }}">
-            <button class="bg-white text-2xl text-gray-600 w-8 h-full rounded-none changeQty increment_btn">+</button>
-            </div>
-            <div id="message" class="hidden fixed top-52 bg-yellow-100 text-red-600 font-semibold p-2 rounded">
-            </div>
-          </div>
-          <input type="hidden" value="{{ item.Product.id }}" class="prod_id">
-            {% csrf_token %}
-            <button class="w-1/4 md:w-auto btn btn-danger delete-cart-item bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none flex flex-nowrap my-6 items-center">
-              <i class="fa fa-trash mr-2"></i> Remove
-            </button>
-          <!-- {% endif %} -->
-          </div>
-          
-          
-          
-          
+  </div>
+
+  <!-- Heading -->
+  <h2 class="bg-white dark:text-white dark:bg-gray-800 p-4 text-2xl font-semibold text-gray-900 dark:text-gray-100 text-center mt-1">
+    Your Cart
+  </h2>
+
+  {% if cart %}
+  <div>
+    <a href="{% url 'checkout' %}"
+       class="bg-orange-400 dark:bg-orange-500 text-white text-center my-2 text-xl font-semibold py-2 px-4 md:ml-10 rounded hover:opacity-80 w-72 flex mx-2 justify-center items-center">
+       Checkout
+    </a>
+  </div>
+  {% else %}
+  <div>
+    <a href="{% url 'home' %}"
+       class="bg-orange-400 dark:bg-orange-500 text-white text-center my-2 text-xl font-semibold py-2 px-4 md:ml-10 rounded hover:opacity-80 w-72 flex mx-2 justify-center items-center">
+       Shop Now
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Cart Items -->
+  {% if cart %}
+  {% for item in cart %}
+  <div class="product_val flex flex-col md:flex-row md:justify-between w-[98vw] md:w-[95%] shadow-sm shadow-gray-400 dark:shadow-gray-700 h-auto md:h-[20vw] md:pl-6 space-y-4 mx-auto my-2 rounded-md py-4 px-1 border border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
+    
+    <!-- Product Info -->
+    <div class="w-auto h-auto flex justify-start items-center space-x-2 md:space-x-4">
+      <img class="w-[40%] h-auto md:w-[10em] md:h-auto md:object-contain object-cover rounded-md"
+           src="{{ item.Product.product_image.url }}" alt="Product image">
+      <div class="w-3/4">
+        <p class="text-lg font-medium text-gray-900 dark:text-white dark:text-gray-100">{{ item.Product.name }}</p>
+        <p class="text-gray-500 dark:text-gray-400 text-md">{{ item.Product.small_description }}</p>
+        <p class="w-1/2 text-lg font-medium my-8 text-gray-900 dark:text-white dark:text-gray-200">
+          Rs. {{ item.Product.selling_price|stringformat:'d' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Quantity + Remove -->
+    <div class="w-auto md:w-auto flex md:flex-col md:justify-between md:items-center md:mr-10 md:h-16 ml-3 space-x-4 product_data del_prod">
+      <input type="hidden" value="{{ item.Product.id }}" class="prod_id">
+      {% csrf_token %}
+
+      <div class="flex px-1 flex-col items-center mb-3 mx-auto">
+        <label for="Quantity" class="block text-xl font-semibold text-gray-900 dark:text-gray-100">Quantity</label>
+        <div class="border border-gray-400 dark:border-gray-600 flex rounded-md overflow-hidden">
+          <button class="bg-white dark:text-white dark:bg-gray-700 text-xl text-gray-600 dark:text-gray-200 w-8 h-full rounded-none changeQty decrement_btn">
+            <i class="fas fa-minus"></i>
+          </button>
+          <input type="text" name="quantity" id="cart-item-{{ item.Product.id }}"
+                 class="w-12 text-center dark:text-white border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white qty_input"
+                 data-available-quantity="{{ item.Product.quantity }}" value="{{ item.product_qty }}">
+          <button class="bg-white dark:text-white dark:bg-gray-700 text-xl text-gray-600 dark:text-gray-200 w-8 h-full rounded-none changeQty increment_btn">
+            <i class="fas fa-plus"></i>
+          </button>
         </div>
+        <div id="message" class="hidden fixed top-52 bg-yellow-100 dark:bg-yellow-200 text-red-600 dark:text-red-800 font-semibold p-2 rounded shadow-lg"></div>
+      </div>
 
-       {% endfor %}
-       
-       {% else %}
-       <h4 class="flex items-center bg-white h-16 w-screen justify-center text-xl">Your Cart is Empty</h4>
-       {% endif %}
-       
+      <input type="hidden" value="{{ item.Product.id }}" class="prod_id">
+      {% csrf_token %}
+      <button class="w-1/4 md:w-auto btn btn-danger delete-cart-item bg-red-600 dark:bg-red-700 text-white py-1 px-6 rounded-md hover:bg-red-700 dark:hover:bg-red-800 focus:outline-none  flex flex-nowrap my-6 items-center">
+        <i class="fa fa-trash ml-[2px] "></i> Remove
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <h4 class="flex items-center bg-white dark:bg-gray-800 h-16 w-screen justify-center text-xl text-gray-900 dark:text-gray-100">
+    Your Cart is Empty
+  </h4>
+  {% endif %}
 
-
-<script>
+  <!-- Quantity Update Script (unchanged) -->
+  <script>
     document.querySelectorAll('.product_val').forEach((cartItemElement) => {
-        const quantityInput = cartItemElement.querySelector('.qty_input');
-        const incrementButton = cartItemElement.querySelector('.increment_btn');
-        const decrementButton = cartItemElement.querySelector('.decrement_btn');
-        const productId = cartItemElement.querySelector('.prod_id').value;
-        const availableQuantity = parseInt(quantityInput.getAttribute('data-available-quantity'));
-    
-        // Create message element
-        const messageElement = document.querySelector('#message');
-        messageElement.style.display = 'none'; 
-    
-        function showMessage(text) {
-            messageElement.textContent = text;
-            messageElement.style.display = 'block';
-            setTimeout(() => {
-                messageElement.style.display = 'none';  // Hide message after 2 seconds
-            }, 2000);
-        }
-    
-        function updateQuantity(newQuantity) {
-            quantityInput.value = newQuantity;
-            $.post("{% url 'update_cart_quantity' %}", {
-                'product_id': productId,
-                'new_quantity': newQuantity,
-                'csrfmiddlewaretoken': getCSRFToken()
-            }, function(response) {
-                if (response.success) {
-                    console.log('Cart quantity updated successfully.');
-                } else {
-                    alert('Error updating cart quantity.');
-                }
-            });
-        }
-    
-        function updateButtonState() {
-            let currentQuantity = parseInt(quantityInput.value);
-    
-            if (currentQuantity > availableQuantity) {
-                incrementButton.disabled = true;
-            } else {
-                incrementButton.disabled = false;
-            }
-        }
-    
-        incrementButton.addEventListener('click', function () {
-            let currentQuantity = parseInt(quantityInput.value);
-            if (currentQuantity < availableQuantity) {
-                currentQuantity++;
-                updateQuantity(currentQuantity);
-                updateButtonState();
-            }
-            else {
-                showMessage(`Only ${availableQuantity} item(s) are available.`);
-            }
+      const quantityInput = cartItemElement.querySelector('.qty_input');
+      const incrementButton = cartItemElement.querySelector('.increment_btn');
+      const decrementButton = cartItemElement.querySelector('.decrement_btn');
+      const productId = cartItemElement.querySelector('.prod_id').value;
+      const availableQuantity = parseInt(quantityInput.getAttribute('data-available-quantity'));
+      const messageElement = document.querySelector('#message');
+      messageElement.style.display = 'none';
+
+      function showMessage(text) {
+        messageElement.textContent = text;
+        messageElement.style.display = 'block';
+        setTimeout(() => {
+          messageElement.style.display = 'none';
+        }, 2000);
+      }
+
+      function updateQuantity(newQuantity) {
+        quantityInput.value = newQuantity;
+        $.post("{% url 'update_cart_quantity' %}", {
+          'product_id': productId,
+          'new_quantity': newQuantity,
+          'csrfmiddlewaretoken': getCSRFToken()
+        }, function (response) {
+          if (response.success) {
+            console.log('Cart quantity updated successfully.');
+          } else {
+            alert('Error updating cart quantity.');
+          }
         });
-    
-        decrementButton.addEventListener('click', function () {
-            let currentQuantity = parseInt(quantityInput.value);
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                updateQuantity(currentQuantity);
-                updateButtonState();
-            }
-        });
-    
-        // Initial check for the button state on page load
-        updateButtonState();
+      }
+
+      function updateButtonState() {
+        let currentQuantity = parseInt(quantityInput.value);
+        incrementButton.disabled = currentQuantity >= availableQuantity;
+      }
+
+      incrementButton.addEventListener('click', function () {
+        let currentQuantity = parseInt(quantityInput.value);
+        if (currentQuantity < availableQuantity) {
+          currentQuantity++;
+          updateQuantity(currentQuantity);
+          updateButtonState();
+        } else {
+          showMessage(`Only ${availableQuantity} item(s) are available.`);
+        }
+      });
+
+      decrementButton.addEventListener('click', function () {
+        let currentQuantity = parseInt(quantityInput.value);
+        if (currentQuantity > 1) {
+          currentQuantity--;
+          updateQuantity(currentQuantity);
+          updateButtonState();
+        }
+      });
+
+      updateButtonState();
     });
-    </script>
-    
-    
-      
+  </script>
+
 </body>
 </html>
 {% endblock %}

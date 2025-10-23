@@ -104,6 +104,13 @@
         }
     </style>
     <style>
+  /* Move alertify messages slightly lower */
+  .alertify-notifier.ajs-top.ajs-right {
+    top: 88px !important;  /* adjust this value as you like */
+    right: 20px;           /* optional: tweak horizontal spacing */
+  }
+</style>
+    <style>
       html, body {
     height: 100%;
     margin: 0;
@@ -116,7 +123,7 @@
 <body class="flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out">
 
     {% include 'store/inc/navbar.html' %}
-    <div class="flex-grow">
+    <div class="flex-grow dark:bg-gray-900">
       {% block content %}
 
       {% endblock content%}
@@ -200,10 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
   alertify.set('notifier', 'position', 'top-right');
+  document.querySelector('.alertify-notifier').classList.add('custom-top-right');
+  
   {% for message in messages %}
       alertify.{{ message.tags|default:"message" }}('{{ message|escapejs }}');
   {% endfor %}
 </script>
+
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
