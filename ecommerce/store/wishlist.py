@@ -2,9 +2,10 @@ from django.http import JsonResponse
 from django.shortcuts import redirect,render
 from .models import *  # Assuming you have these models
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 
 
-
+@never_cache
 @login_required(login_url='login')
 def view(request):
     wishlist = Wishlist.objects.filter(user=request.user)
