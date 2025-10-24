@@ -81,9 +81,21 @@
     <div class="slider-container">
         <div id="slider" class="slider w-[324%] md:w-[100%]">
             <!-- <div class="slide h-full mb-0"><img src="{% static 'images/shoes.png' %}" alt="Kurta"></div> -->
-            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/cure.png' %}" alt="Jumpsuit"></div>
-            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/free.png' %}" alt="Books"></div>
-            <div class="slide w-full mb-0 object-cover h-full"><img src="{% static 'images/cure.png' %}" alt="Jumpsuit"></div>
+            <div class="slide w-full mb-0 h-[300px] md:h-auto">
+  <img src="{% static 'images/cure.png' %}" 
+       alt="Jumpsuit" 
+       class="w-full h-full object-contain md:object-cover">
+</div>
+            <div class="slide w-full mb-0 h-[300px] md:h-auto">
+  <img src="{% static 'images/free.png' %}" 
+       alt="Jumpsuit" 
+       class="w-full h-full object-contain md:object-cover">
+</div>
+            <div class="slide w-full mb-0 h-[300px] md:h-auto">
+  <img src="{% static 'images/cure.png' %}" 
+       alt="Jumpsuit" 
+       class="w-full h-full object-contain md:object-cover">
+</div>
         </div>
         <!-- <button id="prev" class="hidden md:block absolute left-4 bg-gray-800 text-white rounded-full p-2 focus:outline-none md:left-8">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
