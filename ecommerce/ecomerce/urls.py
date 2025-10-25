@@ -26,6 +26,9 @@ urlpatterns = [
     path('',include('store.urls')),
     path('a/',include('Accounts.urls')),
     path("_reload_/", include("django_browser_reload.urls")),
+    path('accounts/', include('allauth.urls')),
+    
+
    
 
 
