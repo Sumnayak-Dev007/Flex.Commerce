@@ -16,27 +16,29 @@
 <!-- Page Content -->
 <div class="bg-gray-200 text-gray-400 dark:bg-gray-800 py-10 flex-grow min-h-[calc(100vh-16rem)] py-6">
     <div class="text-center">
-        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
-            {% for item in category %}
-            <div class="category-image-container bg-white border-[0.1px] dark:border-gray-900 border-gray-200 dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden">
-                <a href="{% url 'collectview' item.slug %}">
-                    <div class="p-3">
-                        <h3 class="text-left text-lg font-bold text-black dark:text-white">{{ item.name }}</h3>
-                    </div>
-                    <div>
-                        <div class="category-image">
-                            <img src="{{ item.image.url }}" alt="Category Image" class="w-full h-64 object-contain">
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="text-left text-md text-blue-500 dark:text-blue-400 underline">
-                            <a href="#">see offer</a>
-                        </h3>
-                    </div>
-                </a>
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 px-3 sm:px-6">
+      {% for item in category %}
+        <!-- Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-2 sm:p-4 text-center group transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
+          <a href="{% url 'collectview' item.slug %}">
+
+            <!-- Image (Responsive Height) -->
+            <div class="overflow-hidden rounded-lg">
+              <img src="{{ item.image.url }}" 
+                   alt="{{ item.name }}" 
+                   class="w-full h-36 sm:h-56 md:h-64 object-contain transition-transform duration-300 group-hover:scale-105">
             </div>
-            {% endfor %}
+
+            <!-- Category Name -->
+            <h3 class="mt-2 sm:mt-4 font-semibold text-base sm:text-lg text-gray-900 dark:text-white py-1">
+              {{ item.name }}
+            </h3>
+
+           
+          </a>
         </div>
+      {% endfor %}
+    </div>
     </div>
 </div>
 

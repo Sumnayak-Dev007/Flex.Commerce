@@ -79,3 +79,4 @@ def searchproduct(request):
             return redirect(request.META.get('HTTP_REFERER', '/'))
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+

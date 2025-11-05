@@ -1,7 +1,7 @@
 {% load static tailwind_tags %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -255,43 +255,57 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('DOMContentLoaded', adjustContentForNavbar);
   window.addEventListener('resize', adjustContentForNavbar);
 </script>
+
+
 <script>
-  const toggleBtn = document.getElementById('theme-toggle');
-  const toggleCircle = document.getElementById('theme-toggle-circle');
+document.addEventListener("DOMContentLoaded", function () {
+  const toggles = [
+    document.getElementById("theme-toggle-desktop"),
+    document.getElementById("theme-toggle-mobile")
+  ].filter(Boolean);
 
-  // Function to move the circle
-  function updateCirclePosition() {
-    if (document.documentElement.classList.contains('dark')) {
-      toggleCircle.style.transform = 'translateX(1.7rem)'; // adjust for sm screen
-    } else {
-      toggleCircle.style.transform = 'translateX(0)';
-    }
+  const circles = document.querySelectorAll(".theme-toggle-circle");
+
+  // single apply function
+  function applyTheme(isDark) {
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    // slide each circle to the right edge of its parent
+    circles.forEach(circle => {
+      const parentWidth = circle.parentElement.offsetWidth;
+      const circleWidth = circle.offsetWidth;
+      // subtract small padding (~8px) to fit comfortably
+      const moveX = Math.max(0, parentWidth - circleWidth - 8);
+      circle.style.transform = isDark ? `translateX(${moveX}px)` : "translateX(0)";
+    });
   }
 
-  // Apply saved theme on page load
-  if (localStorage.getItem('theme') === 'dark' || 
-      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-  }
-  updateCirclePosition();
+  // determine initial theme and apply
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const initialDark = (savedTheme === "dark") || (!savedTheme && prefersDark);
+  applyTheme(initialDark);
 
-  // Toggle event
-  toggleBtn.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      updateCirclePosition();
-
-      // Save preference
-      if (document.documentElement.classList.contains('dark')) {
-          localStorage.setItem('theme', 'dark');
-      } else {
-          localStorage.setItem('theme', 'light');
-      }
+  // add click listeners to all toggles
+  toggles.forEach(toggle => {
+    toggle.addEventListener("click", () => {
+      const nowDark = !document.documentElement.classList.contains("dark");
+      applyTheme(nowDark);
+    });
   });
+
+  // Recompute positions on window resize (keeps circle aligned)
+  window.addEventListener("resize", () => {
+    const isDarkNow = document.documentElement.classList.contains("dark");
+    // small timeout to allow layout to settle
+    setTimeout(() => applyTheme(isDarkNow), 50);
+  });
+});
 </script>
-<script>
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.classList.add('dark');
-    }
-  </script>
+
+
+
+
 </body>
 </html>

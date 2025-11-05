@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,6 +56,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'cloudinary',
+    'cloudinary_storage',
 
     # Google provider
     'allauth.socialaccount.providers.google',
@@ -87,6 +92,7 @@ NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -111,7 +117,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
                 'django.contrib.auth.context_processors.auth',
-                
+                'store.context_processors.cart_item_count',
             ],
         },
     },
@@ -181,12 +187,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL='/static/'
 
-MEDIA_URL='/image/'
-
-MEDIA_ROOT=BASE_DIR/'static'
-
 STATICFILES_DIRS=[
     BASE_DIR/'static'
 ]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dwltzmg8m',
+    'API_KEY': '635666767622998',
+    'API_SECRET': 'Cf0WN-QyM_kJHTQpkMT3mJMJMYQ',
+}
+
+MEDIA_URL = '/flexcom/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

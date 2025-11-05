@@ -18,24 +18,24 @@
     <div class="container mx-0 px-1 pb-2 md:pb-0">
       <div class="flex justify-between md:justify-between items-center py-4 md:pt-2">
         <!-- Logo -->
-        <div class="text-xl font-bold">
-          <a href="#" class="hover:text-gray-400">BrandLogo</a>
+        <div class="text-2xl font-bold">
+          <a href="#" class="hover:text-gray-400">Flexcom</a>
         </div>
 
         <!-- Search Bar (Hidden on mobile, visible on larger screens) -->
         <form method="POST" action="{% url 'searchproduct' %}" class="hidden font-semibold md:flex w-[42%] bg-transparent p-1 mt-2 md:items-center rounded-md search-bar ml-2">
           {% csrf_token %}
-          <input type="search" placeholder="Search products..." id="searchbar" name="searchitemi" class="w-full px-4 py-2 h-full bg-transparent rounded-l-md ring-1 ring-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="search" placeholder="Search products..." id="searchbar" name="searchitemi" class="w-full text-white px-4 py-2 h-full bg-transparent rounded-l-md ring-1 ring-white focus:outline-none focus:ring-2 focus:ring-blue-500">
           <button type="submit" class="bg-transparent ring-1 ring-white rounded-r-md px-4 py-[0.40rem] h-full"><i class="fa fa-search"></i></button>
         </form>
-        <div class="flex items-center ">
-          <!-- Toggle Button -->
-          <button id="theme-toggle"
+        <div class="hidden md:flex items-center ">
+          
+          <button id="theme-toggle-desktop"
             class="relative w-12 h-6 sm:w-14 sm:h-7 bg-gray-400 dark:bg-gray-700 rounded-full flex items-center p-1 transition-colors duration-300 focus:outline-none">
             
-            <!-- Circle that slides -->
+           
             <span id="theme-toggle-circle"
-              class="w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300">
+              class="theme-toggle-circle w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300">
             </span>
           </button>
         </div>
@@ -44,15 +44,18 @@
         <div class="md:hidden flex items-center space-x-5 mr-1">
           {% if user.is_authenticated %}
           <div class="relative flex">
-            <button class="flex text-white hover:text-gray-400 focus:outline-none group relative right-6" id="mobileDropdownButton">
-               <i class="fa-solid fa-user relative top-1  "></i>
+            <div class="flex items-center justify-end absolute  bottom-0 translate-y-4">
+ <button class="flex text-white hover:text-gray-400 focus:outline-none group relative right-6" id="mobileDropdownButton">
+               <i class="fa-solid fa-user text-lg  "></i>
               
-            <svg class="w-4 h-4 ml-1 mt-1 transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-4 h-4  mt-1 transform rotate-180 group-hover:rotate-0 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
               
             
             </button>
+            </div>
+           
             <div id="mobileDropdownMenu" class="absolute dark:text-white dark:bg-gray-900 right-0 top-8 bg-gray-400 hidden mt-2 px-1 py-2 w-28 border border-blue-600 rounded-lg shadow-lg z-10">
               <ul class="text-gray-500">
                 <!-- Dropdown item: Logout -->
@@ -100,9 +103,15 @@
               </ul>
             </div>
           </div>
-          <a href="{% url 'cart' %}" class="text-2xl">
-            <i class="fa fa-shopping-cart"></i>
-          </a>
+          <a href="{% url 'cart' %}" class="relative text-3xl">
+  <i class="fa fa-shopping-cart"></i>
+  {% if cart_item_count > 0 %}
+    <span class="absolute top-[0.01px] -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+  {{ cart_item_count }}
+</span>
+
+  {% endif %}
+</a>
           {% else %}
           <div class="relative flex">
             <button class="flex text-white hover:text-gray-400 focus:outline-none group" id="mobileDropdownButton">
@@ -160,6 +169,17 @@
           <button id="menuToggle" class="text-white">
             <i class="fa-solid fa-bars text-2xl"></i>
           </button>
+          <div class="flex md:hidden items-center ">
+          
+          <button id="theme-toggle-mobile"
+            class="relative w-12 h-6 sm:w-14 sm:h-7 bg-gray-400 dark:bg-gray-700 rounded-full flex items-center p-1 transition-colors duration-300 focus:outline-none">
+            
+           
+            <span id="theme-toggle-circle"
+              class="theme-toggle-circle w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-md transform transition-transform duration-300">
+            </span>
+          </button>
+        </div>
         </div>
 
         <!-- Desktop Menu Links -->
@@ -262,9 +282,14 @@
 </div>
 
           {% endif %}
-          <div class="w-1/4">
-            <a href="{% url 'cart' %}"><i class="fa fa-shopping-cart" style="font-size:34px"></i></a>
-          </div>
+          <a href="{% url 'cart' %}" class="relative text-3xl">
+  <i class="fa fa-shopping-cart"></i>
+  {% if cart_item_count > 0 %}
+    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+      {{ cart_item_count }}
+    </span>
+  {% endif %}
+</a>
         </div>
         </div>
 
@@ -283,7 +308,7 @@
         <form method="POST" action="{% url 'searchproduct' %}" class="md:hidden w-full flex items-center bg-transparent  rounded-md mx-1">
           {% csrf_token %}
           <input type="search" placeholder="Search products..." id="searchbar" name="searchitemi"
-              class="w-full px-4 py-2 text-black bg-transparent rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              class="w-full px-4 py-2 text-white bg-transparent rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
           <button type="submit" class="bg-transparent ring-1 ring-white text-white rounded-r-md px-4 py-2">
               <i class="fa fa-search"></i>
           </button>

@@ -49,6 +49,7 @@ $(function() {
                 },
                 success: function (response) {
                     alertify.success(response.status);
+                    
                 },
                 error: function (error) {
                     console.error("Error adding to cart:", error);
@@ -154,3 +155,4 @@ $(function() {
     
     jqck
 });
+

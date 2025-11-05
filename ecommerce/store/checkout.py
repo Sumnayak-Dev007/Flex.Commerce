@@ -77,9 +77,10 @@ def placeorder(request):
             cart_total = cart_total + item.Product.selling_price * item.product_qty
 
         neworder.total_price = cart_total
-        track = 'order'+str(random.randint(1111111,9999999))
-        while Order.objects.filter(trackno=track) is None:
-            track = 'order'+str(random.randint(1111111,9999999))
+        track = "pay"+str(random.randint(111111,9999999))
+        while (Order.objects.filter(trackno=track).exists()):
+            track = "pay"+str(random.randint(111111,9999999))
+
         neworder.trackno = track
         neworder.save()
         print(neworder.country)
@@ -104,8 +105,11 @@ def placeorder(request):
         messages.success(request,"Your Order has been Placed Successfully")
 
         payMode = request.POST.get('payment_mode')
-        if (payMode == "Paid by Razorpay" or payMode == "Paid by Paypal" or payMode == "COD"):
+        if (payMode == "Paid by Razorpay" or payMode == "Paid by Paypal" ):
             return JsonResponse({'status':"Your order has been placed successfully"})
+
+        # Normal POST (non-AJAX)
+        return redirect('myorders')
     return redirect('/')
 
 
