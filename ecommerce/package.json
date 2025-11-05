@@ -1,5 +1,11 @@
 {
+  "name": "ecommerce",
+  "private": true,
   "devDependencies": {
+    "tailwindcss": "^3.4.0",
     "@kamona/tailwindcss-perspective": "^0.1.1"
+  },
+  "engines": {
+    "node": "20"
   }
 }
