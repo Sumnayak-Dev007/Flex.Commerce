@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&krvbr@f13*-al#v09+l@-e6ar!kjkoh*g=)vc41chvbgf9y_$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 
@@ -89,10 +89,7 @@ AUTHENTICATION_BACKENDS = [
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = ['127.0.0.1',]
 NPM_BIN_PATH = "/usr/bin/npm"
-
-
-# NPM_BIN_PATH = "C:/Users/user/AppData/Roaming/npm"
-
+# NPM_BIN_PATH = "C:/Program Files/nodejs/npm"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
