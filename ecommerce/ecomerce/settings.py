@@ -88,7 +88,10 @@ AUTHENTICATION_BACKENDS = [
 
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = ['127.0.0.1',]
-NPM_BIN_PATH = "/usr/local/bin/npm"
+NPM_BIN_PATH = "/opt/render/project/.render/node/bin/npm"
+
+# NPM_BIN_PATH = "C:/Users/user/AppData/Roaming/npm"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
