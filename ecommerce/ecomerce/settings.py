@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&krvbr@f13*-al#v09+l@-e6ar!kjkoh*g=)vc41chvbgf9y_$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 TAILWIND_DEV_MODE = False
 
 ALLOWED_HOSTS = ["*"]
@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 ]
 
-SITE_ID = 2
+SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -77,6 +77,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -169,7 +170,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'admin:login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
