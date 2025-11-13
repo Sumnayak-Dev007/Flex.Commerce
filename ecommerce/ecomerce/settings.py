@@ -15,6 +15,9 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +30,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&krvbr@f13*-al#v09+l@-e6ar!kjkoh*g=)vc41chvbgf9y_$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-TAILWIND_DEV_MODE = False
+DEBUG = False
+# TAILWIND_DEV_MODE = False
 
 ALLOWED_HOSTS = ["*"]
+
+
 SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 
@@ -134,10 +139,22 @@ WSGI_APPLICATION = 'ecomerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': '15827',
+        'OPTIONS': {
+            'ssl': {
+                # On Windows, use the built-in certificate
+                'ca': '/etc/ssl/certs/ca-certificates.crt',
+            }
+        }
     }
 }
+DB_HOST = os.environ.get('DB_PASSWORD')
+print(DB_HOST)
 
 
 # Password validation
