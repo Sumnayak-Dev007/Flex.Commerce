@@ -148,7 +148,7 @@ DATABASES = {
         'OPTIONS': {
             'ssl': {
                 # On Windows, use the built-in certificate
-                'ca': '/etc/ssl/certs/ca-certificates.crt',
+                'ca': os.path.join(BASE_DIR, 'ca.pem'),
             }
         }
     }
